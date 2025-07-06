@@ -13,6 +13,11 @@ npm install n8n -g
 ```
 n8n start --tunnel
 ```
+### 3. (OPTIONAL)ลบข้อมูล n8n 
+เช่น workflows, credentials, binary data, settings
+```
+rm -rf ~/.n8n
+```
 
 คำสั่งนี้ใช้สำหรับเริ่มต้น n8n พร้อมเปิดใช้งาน tunnel เพื่อให้สามารถเข้าถึง n8n ได้จากภายนอก เช่น Website หรือเรียนผ่าน Webhook
 
