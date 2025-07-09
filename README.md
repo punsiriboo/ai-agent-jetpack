@@ -26,7 +26,7 @@
 2. [System Instruction](./day_1/1_gemini_basic/1.3_system_instructions.ipynb)
 3. [Function Calling](./day_1/1_gemini_basic/3_function_calling.ipynb)
 3. [LINE Messaging API](./day_1/2_line-messaging-api/)
-4. [การผสาน Gemini + LINE](./day_1/3_gemini-x-line/)
+4. [เชื่อมต่อ Gemini + LINE](./day_1/3_gemini-x-line/)
 
 ### Day 2
 5. [Introduction to ADK](./day_2/1_agent-development-kit/1.1_Introduction-to-ADK.ipynb)
