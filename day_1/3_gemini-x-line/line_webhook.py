@@ -11,8 +11,6 @@ from linebot.v3.webhooks import (
     StickerMessageContent,
     LocationMessageContent,
     ImageMessageContent,
-    VideoMessageContent,
-    AudioMessageContent,
     FileMessageContent,
 )
 

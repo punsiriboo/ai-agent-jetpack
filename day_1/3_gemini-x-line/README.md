@@ -1,22 +1,22 @@
-# [R2GAI] Building AI Agent with Gemini and LINE Messaging API
+#  การสร้าง AI Chatbot ด้วย Gemini และ LINE Messaging API
 
-## LAB3: Connect LINE to Gemini
-1. Navigate to the project directory:
+## LAB3: เชื่อมต่อ LINE เข้ากับ Gemini
+1. ไปยังไดเรกทอรีของโปรเจกต์:
    ```bash
-   cd 02-connect-line-to-gemini
+   cd 3_gemini-x-line
    ```
 
-2. Install the required dependencies:
+2. ติดตั้ง dependency ที่จำเป็น:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Configure environment variables:
-- Copy the example environment file:
+3. ตั้งค่าตัวแปรสภาพแวดล้อม (environment variables):
+- คัดลอกไฟล์ตัวอย่าง environment:
     ```bash
     cp .env.example .env
     ```
-- Open the `.env` file and update it with your configuration values:
+- เปิดไฟล์ `.env` และอัปเดตด้วยค่าการกำหนดค่าของคุณ:
     ```
       LINE_CHANNEL_ID="your_channel_id"
       LINE_CHANNEL_ACCESS_TOKEN=your_channel_access_token
