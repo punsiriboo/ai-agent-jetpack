@@ -26,7 +26,7 @@ from linebot.v3.messaging import (
     LocationMessage,
 )
 
-load_dotenv()
+load_dotenv("../.env")
 CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 

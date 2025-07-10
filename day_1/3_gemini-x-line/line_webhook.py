@@ -1,15 +1,12 @@
-import os
+import os, base64
 import functions_framework
 from dotenv import load_dotenv
-import base64
 
 from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3 import WebhookHandler
 from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent,
-    StickerMessageContent,
-    LocationMessageContent,
     ImageMessageContent,
     FileMessageContent,
 )
@@ -22,10 +19,9 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
     ShowLoadingAnimationRequest,
-    LocationMessage,
 )
 
-load_dotenv()
+load_dotenv("../.env")
 
 CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
@@ -58,7 +54,6 @@ def webhook_listening(request):
 
     return "OK"
 
-
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text_message(event):
     line_bot_api.show_loading_animation(
@@ -71,41 +66,6 @@ def handle_text_message(event):
             messages=[TextMessage(text=gemini_reponse)],
         )
     )
-
-
-@handler.add(MessageEvent, message=StickerMessageContent)
-def handle_sticker_message(event):
-    line_bot_api.show_loading_animation_with_http_info(
-        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
-    )
-    line_bot_api.reply_message(
-        ReplyMessageRequest(
-            reply_token=event.reply_token,
-            messages=[TextMessage(text="Got sticker message")],
-        )
-    )
-
-
-@handler.add(MessageEvent, message=LocationMessageContent)
-def handle_location_message(event):
-    line_bot_api.show_loading_animation_with_http_info(
-        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
-    )
-    line_bot_api.reply_message(
-        ReplyMessageRequest(
-            reply_token=event.reply_token,
-            messages=[
-                TextMessage(text="Got location message {},{}"),
-                LocationMessage(
-                    title="Location",
-                    address=event.message.address,
-                    latitude=event.message.latitude,
-                    longitude=event.message.longitude,
-                ),
-            ],
-        )
-    )
-
 
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image_message(event):

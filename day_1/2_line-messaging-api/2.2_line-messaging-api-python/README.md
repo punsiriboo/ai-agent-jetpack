@@ -1,4 +1,4 @@
-# [R2GAI] การสร้าง AI Agent ด้วย Gemini และ LINE Messaging API
+# การสร้าง AI Agent ด้วย Gemini และ LINE Messaging API
 
 1. ไปยังไดเรกทอรีของโปรเจกต์:
    ```bash
