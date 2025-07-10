@@ -43,11 +43,10 @@ from gemini_service import generate_text, image_description, document_descriptio
 
 
 @functions_framework.http
-def callback(request):
+def webhook_listening(request):
     # get X-Line-Signature header value
     signature = request.headers["X-Line-Signature"]
 
-    # get request body as text
     body = request.get_data(as_text=True)
     print("Request body: " + body)
 
