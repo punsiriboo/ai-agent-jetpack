@@ -22,11 +22,12 @@
 
 ### วันที่ 1 (Day 1)
 1. [พื้นฐาน Python (Basic Python)](./day_1/0_basic_pyhon/python_fundamentals.ipynb)
-2. [Gemini LLM เบื้องต้น](./day_1/1_gemini_basic/1_basic_llm_gemini.ipynb)
-3. [การกำหนดคำสั่งเบื้องต้น (System Instruction)](./day_1/1_gemini_basic/1.3_system_instructions.ipynb)
+2. [Gemini LLM เบื้องต้น](./day_1/1_gemini_basic/1_intro_to_gemini.ipynb)
+3. [การกำหนดคำสั่งเบื้องต้น (System Instruction)](./day_1/1_gemini_basic/2_instructions.ipynb)
 4. [การเรียกใช้ฟังก์ชัน (Function Calling)](./day_1/1_gemini_basic/3_function_calling.ipynb)
-5. [LINE Messaging API](./day_1/2_line-messaging-api/)
-6. [เชื่อมต่อ Gemini + LINE](./day_1/3_gemini-x-line/)
+5. [สร้าง LINE OA](./day_1/2_create-line-chatbot/README.md)
+5. [LINE Messaging API](./day_1/3_line_messaging_api/3.1_basic_line_python.ipynb)
+6. [เชื่อมต่อ Gemini + LINE](./day_1/4_gemini-x-line)
 
 ### วันที่ 2 (Day 2)
 1. [แนะนำ Agent Development Kit (Introduction to ADK)](./day_2/1_agent-development-kit/1.1_Introduction-to-ADK.ipynb)
