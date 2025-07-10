@@ -20,14 +20,14 @@
 
 ## ตารางเรียนและลิงก์
 
-### Day 1
-1. [Basic Python](./day_1/0_basic_pyhon/python_fundamentals.ipynb)
-1. [Gemini LLM เบื้องต้น](./day_1/1_gemini_basic/1_basic_llm_gemini.ipynb)
-2. [System Instruction](./day_1/1_gemini_basic/1.3_system_instructions.ipynb)
-3. [Function Calling](./day_1/1_gemini_basic/3_function_calling.ipynb)
-3. [LINE Messaging API](./day_1/2_line-messaging-api/)
-4. [เชื่อมต่อ Gemini + LINE](./day_1/3_gemini-x-line/)
+### วันที่ 1 (Day 1)
+1. [พื้นฐาน Python (Basic Python)](./day_1/0_basic_pyhon/python_fundamentals.ipynb)
+2. [Gemini LLM เบื้องต้น](./day_1/1_gemini_basic/1_basic_llm_gemini.ipynb)
+3. [การกำหนดคำสั่งเบื้องต้น (System Instruction)](./day_1/1_gemini_basic/1.3_system_instructions.ipynb)
+4. [การเรียกใช้ฟังก์ชัน (Function Calling)](./day_1/1_gemini_basic/3_function_calling.ipynb)
+5. [LINE Messaging API](./day_1/2_line-messaging-api/)
+6. [เชื่อมต่อ Gemini + LINE](./day_1/3_gemini-x-line/)
 
-### Day 2
-5. [Introduction to ADK](./day_2/1_agent-development-kit/1.1_Introduction-to-ADK.ipynb)
-6. [n8n Integration](./day_2/2_n8n/)
+### วันที่ 2 (Day 2)
+1. [แนะนำ Agent Development Kit (Introduction to ADK)](./day_2/1_agent-development-kit/1.1_Introduction-to-ADK.ipynb)
+2. [การเชื่อมต่อกับ n8n (n8n Integration)](./day_2/2_n8n/)
