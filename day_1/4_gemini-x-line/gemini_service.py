@@ -6,7 +6,7 @@ from PIL import Image as PILImage                # ใช้แปลง binary 
 from dotenv import load_dotenv                   # โหลดไฟล์ .env
 
 # -------------------- โหลด environment variable จากไฟล์ .env --------------------
-load_dotenv("../.env")
+load_dotenv(".env")
 
 # -------------------- ตั้งค่า Gemini Client --------------------
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])   # สร้าง client เพื่อเรียกใช้ Gemini
@@ -42,7 +42,6 @@ def image_understanding(image_content):
     prompt = "What is shown in this image in Thai?"        # คำสั่งให้ Gemini อธิบายภาพเป็นภาษาไทย
     response = client.models.generate_content(
         model=MODEL_ID,
-        system_instruction=AI_INSTRUCTION_PROMPT,          # ใช้บทบาทเนโกะเช่นกัน
         contents=[prompt, image_data],                     # ส่ง prompt และภาพให้ Gemini
         config=types.GenerateContentConfig(
             max_output_tokens=200,                         # จำกัดความยาวของข้อความตอบกลับ
@@ -58,7 +57,6 @@ def document_understanding(file_content):
 
     response = client.models.generate_content(
         model=MODEL_ID,
-        system_instruction=AI_INSTRUCTION_PROMPT,          # ใช้ instruction เดิม
         contents=[pdf_data, prompt],                       # ใส่ PDF ก่อน แล้วค่อยใส่ prompt
         config=types.GenerateContentConfig(
             max_output_tokens=200,
