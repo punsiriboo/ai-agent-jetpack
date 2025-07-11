@@ -1,3 +1,4 @@
 line-bot-sdk>=3.16.3
 functions-framework
 google-genai
+python-dotenv
