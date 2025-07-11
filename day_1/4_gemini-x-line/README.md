@@ -3,7 +3,7 @@
 ## LAB3: เชื่อมต่อ LINE เข้ากับ Gemini
 1. ไปยังไดเรกทอรีของโปรเจกต์:
    ```bash
-   cd 3_gemini-x-line
+   cd 4_gemini-x-line
    ```
 
 2. ติดตั้ง dependency ที่จำเป็น:
@@ -12,10 +12,6 @@
    ```
 
 3. ตั้งค่าตัวแปรสภาพแวดล้อม (environment variables):
-- คัดลอกไฟล์ตัวอย่าง environment:
-    ```bash
-    cp .env.example .env
-    ```
 - เปิดไฟล์ `.env` และอัปเดตด้วยค่าการกำหนดค่าของคุณ:
     ```
       LINE_CHANNEL_ID="your_channel_id"
