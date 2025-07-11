@@ -1,5 +1,5 @@
 # Import libraries ที่ใช้
-import os, base64
+import os
 import functions_framework
 from dotenv import load_dotenv
 
