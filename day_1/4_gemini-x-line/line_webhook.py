@@ -37,9 +37,9 @@ line_bot_api = MessagingApi(api_client)
 line_bot_blob_api = MessagingApiBlob(api_client)
 
 # import ฟังก์ชันจาก service ที่เรียก Gemini API
-from gemini_service import generate_text, image_description, document_description
+from gemini_service import generate_text, image_understanding, document_understanding
 
-# Cloud Function entrypoint สำหรับรับ webhook จาก LINE
+# Function สำหรับรับ webhook จาก LINE
 @functions_framework.http
 def webhook_listening(request):
     # ดึงค่า Signature จาก header
@@ -88,7 +88,7 @@ def handle_image_message(event):
     message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
 
     # ส่งไปให้ Gemini วิเคราะห์ภาพ
-    gemini_reponse = image_description(message_content)
+    gemini_reponse = image_understanding(message_content)
 
     # ตอบกลับผลลัพธ์จาก Gemini
     line_bot_api.reply_message(
@@ -105,7 +105,7 @@ def handle_file_message(event):
     doc_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
 
     # ส่งไปให้ Gemini วิเคราะห์เนื้อหาในเอกสาร
-    gemini_reponse = document_description(doc_content)
+    gemini_reponse = document_understanding(doc_content)
 
     # ตอบกลับผลลัพธ์จาก Gemini
     line_bot_api.reply_message(
