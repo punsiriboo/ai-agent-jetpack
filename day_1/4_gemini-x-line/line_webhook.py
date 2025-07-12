@@ -23,7 +23,7 @@ from linebot.v3.messaging import (
 )
 
 # โหลด .env สำหรับตั้งค่าคีย์ลับจากไฟล์
-load_dotenv("../.env")
+load_dotenv("../.env", override=True)
 
 # ดึงค่าจาก environment
 CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
