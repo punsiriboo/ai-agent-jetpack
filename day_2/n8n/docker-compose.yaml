@@ -24,9 +24,6 @@ services:
       N8N_PORT: 5678
       N8N_EDITOR_BASE_URL: https://${CODESPACE_NAME}-80.app.github.dev
       WEBHOOK_URL: https://${CODESPACE_NAME}-80.app.github.dev
-      N8N_BASIC_AUTH_ACTIVE: true
-      N8N_BASIC_AUTH_USER: admin
-      N8N_BASIC_AUTH_PASSWORD: strongpass123
       N8N_SKIP_ORIGIN_CHECK: true
       N8N_DISABLE_UI_ACCESS_CONTROL: true
 
