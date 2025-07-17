@@ -1,0 +1,681 @@
+{
+  "name": "1_understand_node_type",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1696,
+        48
+      ],
+      "id": "5f14aeb4-2aab-42b0-9e3a-4f512b41d1a7",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "# Trigger Node Type\n",
+        "height": 608,
+        "width": 768,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1840,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "09acb535-cc3b-4307-b040-1ea65e06ff60",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1696,
+        -160
+      ],
+      "id": "918b6987-1a0e-4e10-a11c-84a59b3c7fe1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "calendarId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "triggerOn": "eventCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1376,
+        -160
+      ],
+      "id": "58fde772-4d0f-4956-af95-ab6ef3b2f1ae",
+      "name": "Google Calendar Trigger"
+    },
+    {
+      "parameters": {
+        "path": "webhook",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1376,
+        48
+      ],
+      "id": "09cde85d-22d6-473e-9e2b-32348a60bbaa",
+      "name": "Webhook",
+      "webhookId": "b95bfbd5-817f-4f4d-b405-77ff578c96bd"
+    },
+    {
+      "parameters": {
+        "content": "# AI Node Type\n",
+        "height": 608,
+        "width": 896,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "d914c540-5b54-4c14-92c9-1c35da4bd197",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        -288,
+        -192
+      ],
+      "id": "33c84d13-fa31-40cf-8d73-a6b76641d955",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -288,
+        32
+      ],
+      "id": "891ca00e-28d3-4a7d-b3bc-146827aa6943",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        32
+      ],
+      "id": "cbada26d-a3e9-4e63-9616-956a579a909f",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.6,
+      "position": [
+        96,
+        -192
+      ],
+      "id": "0419fee8-70ae-44bb-a49c-df0a23eb3cc3",
+      "name": "Question and Answer Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        480
+      ],
+      "id": "4bc7f2d2-3f9e-4e16-b71e-ed9bbc3ae203",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        112,
+        480
+      ],
+      "id": "16b28be1-7498-42c0-9549-8a62a6c37b00",
+      "name": "DeepSeek Chat Model"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        480
+      ],
+      "id": "1ed41a34-f1ea-4996-b634-c142f45706be",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-20250514",
+          "cachedResultName": "Claude 4 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        480
+      ],
+      "id": "fb1126a5-6a35-48ba-805f-6675d5aff461",
+      "name": "Anthropic Chat Model"
+    },
+    {
+      "parameters": {
+        "content": "# Memory Node Type\n",
+        "height": 320,
+        "width": 384,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        672
+      ],
+      "typeVersion": 1,
+      "id": "cf72fcda-d199-46ac-923a-c682ae563a26",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Flow Node Type\n",
+        "height": 608,
+        "width": 640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1040,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "b4af0622-bb9f-4bba-9912-3aa7f917c5d1",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9bb89db8-653f-4e06-94cc-36abfcb3328f",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -976,
+        -144
+      ],
+      "id": "a7630346-e17d-4739-b733-61f60ac430d1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f087bbed-2719-4488-bf32-048ddc2830bf"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -976,
+        48
+      ],
+      "id": "60eb009d-94cc-4f2b-a9f9-0fea66fa1a1f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "content": "# Data Transformation Node Type\n",
+        "height": 688,
+        "width": 640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1040,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "2ae73e7c-80a2-4081-bfda-f76260cfd766",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "# Response/ Action Node Type\n",
+        "height": 1312,
+        "width": 336,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "40aad98d-bccf-44b7-8ce6-b4796208d299",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Your Playground Area",
+        "height": 704,
+        "width": 2768,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1872,
+        1040
+      ],
+      "typeVersion": 1,
+      "id": "556875ff-b6d2-4e93-884c-10d93e66d7ff",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -688,
+        -144
+      ],
+      "id": "bd63bc26-e092-4d33-85f5-208cdb920897",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e9f0bede-f81a-45f6-b548-f14b4c6db939",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -576,
+        64
+      ],
+      "id": "f804428a-50fb-45f2-9f89-198ccf0f32a4",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        432
+      ],
+      "id": "ce8a78c2-474d-4223-83be-3f1fe0ecfacb",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -720,
+        432
+      ],
+      "id": "48c39b9d-341b-437a-a7af-f69ad43c940e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        624
+      ],
+      "id": "f95224a0-aa57-4542-af61-50c86a01e454",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        624
+      ],
+      "id": "eafc455e-0d97-443a-b011-93995ad2500a",
+      "name": "Code"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        64
+      ],
+      "id": "30feb4e4-7341-41e4-a8fc-9351bf1657c8",
+      "name": "Wait",
+      "webhookId": "5a5d3e12-e2ca-435c-9b20-cecd586b577c"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        624,
+        -144
+      ],
+      "id": "c6990f71-ad81-46f6-ab4e-d36a9ff87fd3",
+      "name": "Send a message",
+      "webhookId": "e4635b50-4cce-4458-9b94-690497a47c64"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        624,
+        256
+      ],
+      "id": "4dd563e1-75f8-4197-a83a-1599f379cdb4",
+      "name": "Append row in sheet"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        624,
+        48
+      ],
+      "id": "5f5ee854-e1bb-4813-89c2-29fb145bf11b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -304,
+        816
+      ],
+      "id": "302ac46a-7d07-4e04-9842-6ac7e8e22c52",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        128,
+        816
+      ],
+      "id": "de88d000-3fad-4ab8-91d5-666337a366bf",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        272,
+        816
+      ],
+      "id": "7e4ae837-e232-455c-b441-a907709087c9",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "content": "# Tools Node Type\n",
+        "height": 320,
+        "width": 496,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        32,
+        672
+      ],
+      "typeVersion": 1,
+      "id": "60c20ddc-4da6-41cd-9348-57859b1cd327",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        816
+      ],
+      "id": "956112e1-082a-4fc7-8968-916d14b3ac5b",
+      "name": "Sort"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        816
+      ],
+      "id": "c99d6be0-4669-4f49-bb68-f7f2d04c365c",
+      "name": "MongoDB Chat Memory"
+    },
+    {
+      "parameters": {
+        "content": "# LLMs Node Type\n",
+        "height": 352,
+        "width": 896,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "af3880af-4f3a-48bb-ae5e-9ebf6af1455f",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        []
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out": {
+      "main": [
+        []
+      ]
+    },
+    "Code": {
+      "main": [
+        []
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b0d3e7d7-0d2a-4333-99ef-09ee30f2edc9",
+  "meta": {
+    "instanceId": "d9dbb36bdae01c314c3d5c125470f967f1676e733b0e89a0be52e792a5ac9af9"
+  },
+  "id": "QfwkxNj7G9HC4qoo",
+  "tags": []
+}
