@@ -3,6 +3,7 @@
 สั่งเปิด UI แบบ interactive
 ```
 cd 6-multi-agent
+cp ../.env .  
 adk web
 ```
 
