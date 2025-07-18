@@ -37,18 +37,7 @@ The example uses a simple question-answering agent that responds based on stored
 ## Getting Started
 
 ### Setup
-
-1. Activate the virtual environment from the root directory:
-```bash
-# macOS/Linux:
-source ../.venv/bin/activate
-# Windows CMD:
-..\.venv\Scripts\activate.bat
-# Windows PowerShell:
-..\.venv\Scripts\Activate.ps1
-```
-
-2. Create a `.env` file and add your Google API key:
+Must Create a [`../.env`](../.env) file and add your Google API key:
 ```
 GOOGLE_API_KEY=your_api_key_here
 ```

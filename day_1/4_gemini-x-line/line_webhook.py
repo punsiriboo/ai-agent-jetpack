@@ -60,7 +60,7 @@ def webhook_listening(request):
 # กรณีข้อความเป็นประเภท Text
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text_message(event):
-    # แสดง animation ระหว่างประมวลผล (LINE Premium Function)
+    # แสดง loading animation ระหว่างประมวลผล
     line_bot_api.show_loading_animation(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
@@ -79,7 +79,7 @@ def handle_text_message(event):
 # กรณีข้อความเป็นรูปภาพ
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image_message(event):
-    # แสดง animation ระหว่างประมวลผล
+    # แสดง loading animation ระหว่างประมวลผล
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
