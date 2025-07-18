@@ -1,6 +1,3 @@
-import os
-import random
-
 from google.adk.agents import Agent
 
 model="gemini-2.0-flash"

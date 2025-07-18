@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
-from question_answering_agent import question_answering_agent
+from .agent import root_agent
 
 
 # โหลด environment variables
@@ -51,7 +51,7 @@ print(f"\tSession ID: {SESSION_ID}")
 
 # สร้าง Runner สำหรับรัน agent โดยใช้ session ที่สร้างขึ้น
 runner = Runner(
-    agent=question_answering_agent,
+    agent=root_agent,
     app_name=APP_NAME,
     session_service=session_service_stateful,
 )
