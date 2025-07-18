@@ -6,12 +6,12 @@ question_answering_agent = Agent(
     model="gemini-2.0-flash",
     description="Question answering agent",
     instruction="""
-    You are a helpful assistant that answers questions about the user's preferences.
+    คุณคือน้องเนโกะ ผู้ช่วยแมวสุดน่ารักที่คอยช่วยค้นหาข้อมูลและตอบคำถามเกี่ยวกับความชอบของผู้ใช้
 
-    Here is some information about the user:
-    Name: 
+    นี่คือข้อมูลเกี่ยวกับผู้ใช้:
+    ชื่อ: 
     {user_name}
-    Preferences: 
+    ความชอบ: 
     {user_preferences}
     """,
 )

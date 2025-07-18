@@ -1,41 +1,41 @@
-# Persistent Storage in ADK
+# การจัดเก็บข้อมูลแบบถาวรใน ADK
 
-This example demonstrates how to implement persistent storage for your ADK agents, allowing them to remember information and maintain conversation history across multiple sessions, application restarts, and even server deployments.
+ตัวอย่างนี้สาธิตวิธีการใช้งานการจัดเก็บข้อมูลแบบถาวรสำหรับ Agent ใน ADK เพื่อให้ Agent สามารถจดจำข้อมูลและประวัติการสนทนาได้ข้ามหลาย session, การรีสตาร์ทแอปพลิเคชัน หรือแม้แต่การย้ายเซิร์ฟเวอร์
 
-## What is Persistent Storage in ADK?
+## Persistent Storage ใน ADK คืออะไร?
 
-In previous examples, we used `InMemorySessionService` which stores session data only in memory - this data is lost when the application stops. For real-world applications, you'll often need your agents to remember user information and conversation history long-term. This is where persistent storage comes in.
+ตัวอย่างก่อนหน้านี้ใช้ `InMemorySessionService` ซึ่งเก็บข้อมูล session ไว้ในหน่วยความจำเท่านั้น ข้อมูลจะหายไปเมื่อปิดแอปพลิเคชัน สำหรับการใช้งานจริง คุณต้องการให้ Agent จดจำข้อมูลผู้ใช้และประวัติการสนทนาได้ระยะยาว ซึ่ง Persistent Storage จะช่วยในส่วนนี้
 
-ADK provides the `DatabaseSessionService` that allows you to store session data in a SQL database, ensuring:
+ADK มี `DatabaseSessionService` ที่ช่วยให้คุณเก็บข้อมูล session ในฐานข้อมูล SQL โดยมีข้อดีดังนี้:
 
-1. **Long-term Memory**: Information persists across application restarts
-2. **Consistent User Experiences**: Users can continue conversations where they left off
-3. **Multi-user Support**: Different users' data remains separate and secure
-4. **Scalability**: Works with production databases for high-scale deployments
+1. **จดจำข้อมูลระยะยาว**: ข้อมูลไม่หายแม้รีสตาร์ทแอป
+2. **ประสบการณ์ผู้ใช้ต่อเนื่อง**: ผู้ใช้สามารถกลับมาคุยต่อจากเดิมได้
+3. **รองรับหลายผู้ใช้**: ข้อมูลแต่ละคนแยกกันและปลอดภัย
+4. **ขยายระบบได้**: รองรับฐานข้อมูลสำหรับงานขนาดใหญ่
 
-This example shows how to implement a reminder agent that remembers your name and todos across different conversations using an SQLite database.
+ตัวอย่างนี้จะแสดงการสร้าง Agent เตือนความจำที่จดจำชื่อและรายการเตือนของคุณข้ามการสนทนา โดยใช้ฐานข้อมูล SQLite
 
-## Project Structure
+## โครงสร้างโปรเจกต์
 
 ```
 5-persistent-storage/
 │
-├── memory_agent/               # Agent package
-│   ├── __init__.py             # Required for ADK to discover the agent
-│   └── agent.py                # Agent definition with reminder tools
+├── memory_agent/               # โค้ด Agent
+│   ├── __init__.py             # สำหรับให้ ADK ค้นหา agent
+│   └── agent.py                # นิยาม agent และเครื่องมือเตือนความจำ
 │
-├── main.py                     # Application entry point with database session setup
-├── utils.py                    # Utility functions for terminal UI and agent interaction
-├── .env                        # Environment variables
-├── my_agent_data.db            # SQLite database file (created when first run)
-└── README.md                   # This documentation
+├── main.py                     # จุดเริ่มต้นโปรแกรมและตั้งค่าฐานข้อมูล
+├── utils.py                    # ฟังก์ชันช่วยสำหรับ UI และ agent
+├── .env                        # ตัวแปร environment
+├── my_agent_data.db            # ไฟล์ฐานข้อมูล SQLite (สร้างเมื่อรันครั้งแรก)
+└── README.md                   # เอกสารนี้
 ```
 
-## Key Components
+## ส่วนสำคัญ
 
 ### 1. DatabaseSessionService
 
-The core component that provides persistence is the `DatabaseSessionService`, which is initialized with a database URL:
+ส่วนหลักที่ใช้จัดเก็บข้อมูลแบบถาวร คือ `DatabaseSessionService` ซึ่งต้องกำหนด URL ฐานข้อมูล:
 
 ```python
 from google.adk.sessions import DatabaseSessionService
@@ -44,29 +44,29 @@ db_url = "sqlite:///./my_agent_data.db"
 session_service = DatabaseSessionService(db_url=db_url)
 ```
 
-This service allows ADK to:
-- Store session data in a SQLite database file
-- Retrieve previous sessions for a user
-- Automatically manage database schemas
+บริการนี้ช่วยให้ ADK สามารถ:
+- เก็บข้อมูล session ลงในไฟล์ฐานข้อมูล SQLite
+- ดึงข้อมูล session ก่อนหน้าได้
+- จัดการ schema ฐานข้อมูลโดยอัตโนมัติ
 
-### 2. Session Management
+### 2. การจัดการ Session
 
-The example demonstrates proper session management:
+ตัวอย่างนี้แสดงการจัดการ session อย่างถูกต้อง:
 
 ```python
-# Check for existing sessions for this user
+# ตรวจสอบ session เดิมของผู้ใช้
 existing_sessions = session_service.list_sessions(
     app_name=APP_NAME,
     user_id=USER_ID,
 )
 
-# If there's an existing session, use it, otherwise create a new one
+# ถ้ามี session เดิม ใช้ session ล่าสุด ถ้าไม่มีก็สร้างใหม่
 if existing_sessions and len(existing_sessions.sessions) > 0:
-    # Use the most recent session
+    # ใช้ session ล่าสุด
     SESSION_ID = existing_sessions.sessions[0].id
-    print(f"Continuing existing session: {SESSION_ID}")
+    print(f"ดำเนินการต่อกับ session เดิม: {SESSION_ID}")
 else:
-    # Create a new session with initial state
+    # สร้าง session ใหม่พร้อมสถานะเริ่มต้น
     session_service.create_session(
         app_name=APP_NAME,
         user_id=USER_ID,
@@ -75,19 +75,19 @@ else:
     )
 ```
 
-### 3. State Management with Tools
+### 3. การจัดการ State ด้วย Tools
 
-The agent includes tools that update the persistent state:
+Agent มีเครื่องมือสำหรับอัปเดตข้อมูลแบบ persistent:
 
 ```python
 def add_reminder(reminder: str, tool_context: ToolContext) -> dict:
-    # Get current reminders from state
+    # ดึงรายการเตือนปัจจุบันจากสถานะ
     reminders = tool_context.state.get("reminders", [])
     
-    # Add the new reminder
+    # เพิ่มรายการเตือนใหม่
     reminders.append(reminder)
     
-    # Update state with the new list of reminders
+    # อัปเดตสถานะด้วยรายการเตือนใหม่
     tool_context.state["reminders"] = reminders
     
     return {
@@ -97,19 +97,19 @@ def add_reminder(reminder: str, tool_context: ToolContext) -> dict:
     }
 ```
 
-Each change to `tool_context.state` is automatically saved to the database.
+ทุกครั้งที่เปลี่ยนแปลง `tool_context.state` ข้อมูลจะถูกบันทึกลงฐานข้อมูลโดยอัตโนมัติ
 
-## Getting Started
+## เริ่มต้นใช้งาน
 
-### Prerequisites
+### สิ่งที่ต้องมี
 
-- Python 3.9+
-- Google API Key for Gemini models
-- SQLite (included with Python)
+- Python 3.9 ขึ้นไป
+- Google API Key สำหรับ Gemini
+- SQLite (มากับ Python)
 
-### Setup
+### การตั้งค่า
 
-1. Activate the virtual environment from the root directory:
+1. เปิดใช้งาน virtual environment จากโฟลเดอร์ root:
 ```bash
 # macOS/Linux:
 source ../.venv/bin/activate
@@ -119,62 +119,62 @@ source ../.venv/bin/activate
 ..\.venv\Scripts\Activate.ps1
 ```
 
-2. Make sure your Google API key is set in the `.env` file:
+2. ตรวจสอบว่าใส่ Google API Key ในไฟล์ `.env` แล้ว:
 ```
 GOOGLE_API_KEY=your_api_key_here
 ```
 
-### Running the Example
+### การรันตัวอย่าง
 
-To run the persistent storage example:
+รันตัวอย่างการจัดเก็บข้อมูลแบบถาวร:
 
 ```bash
 python main.py
 ```
 
-This will:
-1. Connect to the SQLite database (or create it if it doesn't exist)
-2. Check for previous sessions for the user
-3. Start a conversation with the memory agent
-4. Save all interactions to the database
+สิ่งที่จะเกิดขึ้น:
+1. เชื่อมต่อกับฐานข้อมูล SQLite (หรือสร้างใหม่ถ้ายังไม่มี)
+2. ตรวจสอบ session เดิมของผู้ใช้
+3. เริ่มสนทนากับ Agent น้อง Neko
+4. บันทึกทุกการสนทนาลงฐานข้อมูล
 
-### Example Interactions
+### ตัวอย่างการสนทนา
 
-Try these interactions to test the agent's persistent memory:
+ลองพิมพ์ข้อความเหล่านี้เพื่อทดสอบความสามารถในการจดจำของ Agent:
 
-1. **First run:**
-   - "What's my name?"
-   - "My name is John"
-   - "Add a reminder to buy groceries"
-   - "Add another reminder to finish the report"
-   - "What are my reminders?"
-   - Exit the program with "exit"
+1. **รอบแรก:**
+   - "ชื่อฉันคืออะไร?"
+   - "ฉันชื่อ John"
+   - "เพิ่มรายการเตือนซื้อของ"
+   - "เพิ่มรายการเตือนส่งรายงาน"
+   - "มีรายการเตือนอะไรบ้าง?"
+   - ออกจากโปรแกรมด้วย "exit"
 
-2. **Second run:**
-   - "What's my name?"
-   - "What reminders do I have?"
-   - "Update my second reminder to submit the report by Friday"
-   - "Delete the first reminder"
-   
-The agent will remember your name and reminders between runs!
+2. **รอบสอง:**
+   - "ชื่อฉันคืออะไร?"
+   - "มีรายการเตือนอะไรบ้าง?"
+   - "แก้ไขรายการที่สองเป็นส่งรายงานภายในวันศุกร์"
+   - "ลบรายการแรก"
 
-## Using Database Storage in Production
+Agent จะจดจำชื่อและรายการเตือนของคุณข้ามการรันโปรแกรม!
 
-While this example uses SQLite for simplicity, `DatabaseSessionService` supports various database backends through SQLAlchemy:
+## การใช้งานฐานข้อมูลในระบบจริง
+
+ตัวอย่างนี้ใช้ SQLite เพื่อความง่าย แต่ `DatabaseSessionService` รองรับฐานข้อมูลอื่น ๆ ผ่าน SQLAlchemy:
 
 - PostgreSQL: `postgresql://user:password@localhost/dbname`
 - MySQL: `mysql://user:password@localhost/dbname`
 - MS SQL Server: `mssql://user:password@localhost/dbname`
 
-For production use:
-1. Choose a database system that meets your scalability needs
-2. Configure connection pooling for efficiency
-3. Implement proper security for database credentials
-4. Consider database backups for critical agent data
+สำหรับการใช้งานจริง:
+1. เลือกฐานข้อมูลที่เหมาะกับงานของคุณ
+2. ตั้งค่าการเชื่อมต่อและ pooling ให้มีประสิทธิภาพ
+3. ดูแลความปลอดภัยของข้อมูลและรหัสผ่าน
+4. สำรองข้อมูลฐานข้อมูลเป็นประจำ
 
-## Additional Resources
+## แหล่งข้อมูลเพิ่มเติม
 
 - [ADK Sessions Documentation](https://google.github.io/adk-docs/sessions/session/)
 - [Session Service Implementations](https://google.github.io/adk-docs/sessions/session/#sessionservice-implementations)
 - [State Management in ADK](https://google.github.io/adk-docs/sessions/state/)
-- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/) for advanced database configuration 
+- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/) สำหรับการตั้งค่าฐานข้อมูลขั้นสูง

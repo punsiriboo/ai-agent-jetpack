@@ -1,80 +1,54 @@
-# Multi-Agent Systems in ADK
+# ระบบ Multi-Agent สำหรับ ADK
 
-This example demonstrates how to create a multi-agent system in ADK, where specialized agents collaborate to handle complex tasks, each focusing on their area of expertise.
+ตัวอย่างนี้แสดงการสร้างระบบหลายเอเจนต์ (Multi-Agent) ด้วย ADK โดยแต่ละเอเจนต์มีความเชี่ยวชาญเฉพาะด้านและสามารถทำงานร่วมกันเพื่อแก้ไขปัญหาที่ซับซ้อนได้
 
-## What is a Multi-Agent System?
+## Multi-Agent System คืออะไร?
 
-A Multi-Agent System is an advanced pattern in the Agent Development Kit (ADK) that allows multiple specialized agents to work together to handle complex tasks. Each agent can focus on a specific domain or functionality, and they can collaborate through delegation and communication to solve problems that would be difficult for a single agent.
+Multi-Agent System คือรูปแบบการพัฒนาเอเจนต์ใน ADK ที่ให้หลายเอเจนต์ทำงานร่วมกัน โดยแต่ละเอเจนต์จะรับผิดชอบงานเฉพาะด้าน เช่น วิเคราะห์หุ้น วิเคราะห์ข่าว หรือให้คำปรึกษาทางการเงิน
 
-## Project Structure Requirements
+## โครงสร้างโปรเจกต์ที่จำเป็น
 
-For multi-agent systems to work properly with ADK, your project must follow a specific structure:
+เพื่อให้ระบบ Multi-Agent ทำงานได้อย่างถูกต้อง โปรเจกต์ต้องมีโครงสร้างดังนี้:
 
 ```
 parent_folder/
-├── root_agent_folder/           # Main agent package (e.g., "manager")
-│   ├── __init__.py              # Must import agent.py
-│   ├── agent.py                 # Must define root_agent
-│   ├── .env                     # Environment variables
-│   └── sub_agents/              # Directory for all sub-agents
-│       ├── __init__.py          # Empty or imports sub-agents
-│       ├── agent_1_folder/      # Sub-agent package
-│       │   ├── __init__.py      # Must import agent.py
-│       │   └── agent.py         # Must define an agent variable
-│       ├── agent_2_folder/
-│       │   ├── __init__.py
-│       │   └── agent.py
+├── root_agent_folder/           # โฟลเดอร์หลักของเอเจนต์ (เช่น "manager")
+│   ├── __init__.py              # ต้อง import agent.py
+│   ├── agent.py                 # กำหนด root_agent
+│   └── sub_agents/              # โฟลเดอร์สำหรับ sub-agents
+│       ├── __init__.py          # ว่างหรือ import sub-agents
+│       ├── agent_1_folder/      # โฟลเดอร์ของ sub-agent
+│       │   ├── __init__.py      # ต้อง import agent.py
+│       │   └── agent.py         # กำหนด agent
 │       └── ...
 ```
 
-### Essential Structure Components:
+- agent.py ใน root agent ต้องกำหนดตัวแปร `root_agent`
+- sub_agents ต้องแยกเป็นโฟลเดอร์ย่อยและ import agent.py
 
-1. **Root Agent Package**
-   - Must have the standard agent structure (like in the basic agent example)
-   - The `agent.py` file must define a `root_agent` variable
+## รูปแบบสถาปัตยกรรม Multi-Agent
 
-2. **Sub-agents Directory**
-   - Typically organized as a directory called `sub_agents` inside the root agent folder
-   - Each sub-agent should be in its own directory following the same structure as regular agents
+ADK รองรับ 2 รูปแบบหลัก:
 
-3. **Importing Sub-agents**
-   - Root agent must import sub-agents to use them:
-   ```python
-   from .sub_agents.funny_nerd.agent import funny_nerd
-   from .sub_agents.stock_analyst.agent import stock_analyst
-   ```
+### 1. Sub-Agent Delegation
 
-4. **Command Location**
-   - Always run `adk web` from the parent directory (`6-multi-agent`), not from inside any agent directory
-
-This structure ensures that ADK can discover and correctly load all agents in the hierarchy.
-
-## Multi-Agent Architecture Options
-
-ADK offers two primary approaches to building multi-agent systems:
-
-### 1. Sub-Agent Delegation Model
-
-Using the `sub_agents` parameter, the root agent can fully delegate tasks to specialized agents:
+กำหนด sub_agents ให้ root agent สามารถส่งงานไปยังเอเจนต์เฉพาะทาง:
 
 ```python
 root_agent = Agent(
     name="manager",
     model="gemini-2.0-flash",
     description="Manager agent",
-    instruction="You are a manager agent that delegates tasks to specialized agents...",
-    sub_agents=[stock_analyst, funny_nerd],
+    sub_agents=[stock_analyst, news_analyst],
 )
 ```
 
-**Characteristics:**
-- Complete delegation - sub-agent takes over the entire response
-- The sub-agent decision is final and takes control of the conversation
-- Root agent acts as a "router" determining which specialist should handle the query
+- sub-agent จะรับผิดชอบตอบกลับโดยตรง
+- root agent ทำหน้าที่เป็นตัวกลางคัดเลือกผู้เชี่ยวชาญ
 
-### 2. Agent-as-a-Tool Model
+### 2. Agent-as-a-Tool
 
-Using the `AgentTool` wrapper, agents can be used as tools by other agents:
+ใช้ AgentTool เพื่อให้ root agent เรียกใช้งานเอเจนต์อื่นเป็นเครื่องมือ:
 
 ```python
 from google.adk.tools.agent_tool import AgentTool
@@ -83,7 +57,6 @@ root_agent = Agent(
     name="manager",
     model="gemini-2.0-flash",
     description="Manager agent",
-    instruction="You are a manager agent that uses specialized agents as tools...",
     tools=[
         AgentTool(news_analyst),
         get_current_time,
@@ -91,138 +64,44 @@ root_agent = Agent(
 )
 ```
 
-**Characteristics:**
-- Sub-agent returns results to the root agent
-- Root agent maintains control and can incorporate the sub-agent's response into its own
-- Multiple tool calls can be made to different agent tools in a single response
-- Gives the root agent more flexibility in how it uses the results
+- root agent สามารถรวมผลลัพธ์จากหลาย agent tool ในคำตอบเดียว
+- ควบคุมการตอบกลับได้มากขึ้น
 
-## Limitations When Using Multi-Agents
+## ข้อจำกัด
 
-### Sub-agent Restrictions
+- sub-agent ไม่สามารถใช้ built-in tools ได้โดยตรง
+- หากต้องการใช้ built-in tools หลายตัว ให้ใช้ AgentTool
 
-**Built-in tools cannot be used within a sub-agent.**
+## ตัวอย่างระบบในโฟลเดอร์นี้
 
-For example, this approach using built-in tools within sub-agents is **not** currently supported:
+ระบบนี้ประกอบด้วย:
+1. **Financial Advisor**: ให้คำปรึกษาด้านการเงินและการลงทุน
+2. **Stock Analyst**: วิเคราะห์ข้อมูลหุ้น
+2. **News Analyst**: สรุปข่าวเศรษฐกิจ
 
-```python
-search_agent = Agent(
-    model='gemini-2.0-flash',
-    name='SearchAgent',
-    instruction="You're a specialist in Google Search",
-    tools=[google_search],  # Built-in tool
-)
-coding_agent = Agent(
-    model='gemini-2.0-flash',
-    name='CodeAgent',
-    instruction="You're a specialist in Code Execution",
-    tools=[built_in_code_execution],  # Built-in tool
-)
-root_agent = Agent(
-    name="RootAgent",
-    model="gemini-2.0-flash",
-    description="Root Agent",
-    sub_agents=[
-        search_agent,  # NOT SUPPORTED
-        coding_agent   # NOT SUPPORTED
-    ],
-)
-```
 
-### Workaround Using Agent Tools
+Manager agent จะเลือกส่งคำถามไปยังผู้เชี่ยวชาญที่เหมาะสม
 
-To use multiple built-in tools or to combine built-in tools with other tools, you can use the `AgentTool` approach:
+## วิธีใช้งาน
 
-```python
-from google.adk.tools import agent_tool
+1. เปิดใช้งาน virtual environment จาก root directory
+2. ตั้งค่า API key ในไฟล์ `.env`
+3. รันคำสั่ง
 
-search_agent = Agent(
-    model='gemini-2.0-flash',
-    name='SearchAgent',
-    instruction="You're a specialist in Google Search",
-    tools=[google_search],
-)
-coding_agent = Agent(
-    model='gemini-2.0-flash',
-    name='CodeAgent',
-    instruction="You're a specialist in Code Execution",
-    tools=[built_in_code_execution],
-)
-root_agent = Agent(
-    name="RootAgent",
-    model="gemini-2.0-flash",
-    description="Root Agent",
-    tools=[
-        agent_tool.AgentTool(agent=search_agent), 
-        agent_tool.AgentTool(agent=coding_agent)
-    ],
-)
-```
-
-This approach wraps agents as tools, allowing the root agent to delegate to specialized agents that each use a single built-in tool.
-
-## Our Multi-Agent Example
-
-This example implements a manager agent that works with three specialized agents:
-
-1. **Stock Analyst** (Sub-agent): Provides financial information and stock market insights
-2. **Funny Nerd** (Sub-agent): Creates nerdy jokes about technical topics
-3. **News Analyst** (Agent Tool): Gives summaries of current technology news
-
-The manager agent routes queries to the appropriate specialist based on the content of the user's request.
-
-## Getting Started
-
-This example uses the same virtual environment created in the root directory. Make sure you have:
-
-1. Activated the virtual environment from the root directory:
-```bash
-# macOS/Linux:
-source ../.venv/bin/activate
-# Windows CMD:
-..\.venv\Scripts\activate.bat
-# Windows PowerShell:
-..\.venv\Scripts\Activate.ps1
-```
-
-2. Set up your API key:
-   - Rename `.env.example` to `.env` in the manager folder
-   - Add your Google API key to the `GOOGLE_API_KEY` variable in the `.env` file
-
-## Running the Example
-
-To run the multi-agent example:
-
-1. Navigate to the 6-multi-agent directory containing your agent folders.
-
-2. Start the interactive web UI:
 ```bash
 adk web
 ```
 
-3. Access the web UI by opening the URL shown in your terminal (typically http://localhost:8000)
+4. เปิด URL ที่แสดงใน terminal (เช่น http://localhost:8000)
+5. เลือก agent "manager" หรือ "financial_advisor" ใน dropdown
+6. เริ่มสนทนาได้ทันที
 
-4. Select the "manager" agent from the dropdown menu in the top-left corner of the UI
+## ตัวอย่าง prompt
+- "วันนี้ตลาดหุ้นเป็นอย่างไร?"
+- "ขอคำแนะนำการออมเงิน"
+- "ข่าวเศรษฐกิจล่าสุดคืออะไร?"
+- "ขอเวลาปัจจุบัน"
 
-5. Start chatting with your agent in the textbox at the bottom of the screen
-
-### Troubleshooting
-
-If your multi-agent setup doesn't appear properly in the dropdown menu:
-- Make sure you're running `adk web` from the parent directory (6-multi-agent)
-- Verify that each agent's `__init__.py` properly imports its respective `agent.py`
-- Check that the root agent properly imports all sub-agents
-
-### Example Prompts to Try
-
-- "Can you tell me about the stock market today?"
-- "Tell me something funny about programming"
-- "What's the latest tech news?"
-- "What time is it right now?"
-
-You can exit the conversation or stop the server by pressing `Ctrl+C` in your terminal.
-
-## Additional Resources
-
+## แหล่งข้อมูลเพิ่มเติม
 - [ADK Multi-Agent Systems Documentation](https://google.github.io/adk-docs/agents/multi-agent-systems/)
 - [Agent Tools Documentation](https://google.github.io/adk-docs/tools/function-tools/#3-agent-as-a-tool)
