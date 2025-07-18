@@ -1,0 +1,261 @@
+{
+  "name": "2_basic_restuarant_ai_agent",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "ai-agent"
+      },
+      "type": "n8n-nodes-line-messaging-api.LineWebhook",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -48
+      ],
+      "id": "c0510cbd-c69a-4e30-a5a2-edd3c468162d",
+      "name": "LineWebhook",
+      "webhookId": "561f877b-f71c-4ec4-967a-a4136b63cbf6",
+      "credentials": {
+        "LineMessagingAPIAuth": {
+          "id": "oLQ6bvI7plJRyMtN",
+          "name": "LINE Messaging Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.rawEvent.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        -112
+      ],
+      "id": "ec1c4700-dac2-4522-946f-0f502931a879",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {
+          "maxOutputTokens": 200
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        384,
+        64
+      ],
+      "id": "6010afde-fec9-4bc7-a8a4-053e22375b73",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "d9UQgJQ3dmT0P4Wx",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.source.userId }}",
+        "contextWindowLength": 20000
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        80
+      ],
+      "id": "e99c50e9-1561-4174-b7a5-75cd9fb820c5",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.output }}"
+      },
+      "type": "n8n-nodes-line-messaging-api.LineMessageBuilder",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -96
+      ],
+      "id": "7b9b6b36-9d57-40aa-9714-0342796b7e26",
+      "name": "LineMessageBuilder"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.message }}",
+        "replyToken": "={{ $('LineWebhook').item.json.rawEvent.replyToken }}"
+      },
+      "type": "n8n-nodes-line-messaging-api.LineMessagingAPI",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        -96
+      ],
+      "id": "0759a849-db22-4627-adbc-5686a730afaa",
+      "name": "LineMessaging",
+      "credentials": {
+        "LineMessagingAPIAuth": {
+          "id": "oLQ6bvI7plJRyMtN",
+          "name": "LINE Messaging Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getMessageContent",
+        "messageId": "={{ $json.rawEvent.message.id }}"
+      },
+      "type": "n8n-nodes-line-messaging-api.LineMessagingAPI",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        256
+      ],
+      "id": "12a196ec-e113-4531-b7a2-432f9e78db70",
+      "name": "get Image from User",
+      "credentials": {
+        "LineMessagingAPIAuth": {
+          "id": "oLQ6bvI7plJRyMtN",
+          "name": "LINE Messaging Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# LINE Messaging API Webhook\n\nLINE Webhook คือทางเชื่อมที่ LINE ใช้ส่ง Events มาบอก Bot ของเราทันทีเมื่อมีคนทำอะไรกับ Bot เช่น ส่งข้อความ ส่งรูปภาพ วิดีโอ",
+        "height": 1168,
+        "width": 896,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -800,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "ade7020b-d562-4ee4-8248-bb00a988ad34",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# AI Agent \nสร้าง AI ขึ้นมาช่วยตอบคำถาม",
+        "height": 1168,
+        "width": 704,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        128,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "bd72d13a-89f5-4eec-af22-0b49ccdce7c1",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Response\nResponse คือ ข้อความที่เราตอบกลับผู้ใช้หลังจากให้ AI ช่วยคิดคำตอบให้\n",
+        "height": 1152,
+        "width": 944,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "019da26c-6eea-4392-bfd0-1fbc0ef7f889",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "LineWebhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [],
+        [
+          {
+            "node": "get Image from User",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "LineMessageBuilder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LineMessageBuilder": {
+      "main": [
+        [
+          {
+            "node": "LineMessaging",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9831c604-beac-4d44-8a9a-dec34f9aa015",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c74b927b1b75252e4a0a959ad3c1abbee97363bb93decaa9d38127cf0fd2b63a"
+  },
+  "id": "fNjIvJ3xrgHDm5PX",
+  "tags": []
+}
