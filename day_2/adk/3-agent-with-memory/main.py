@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from google.adk.runners import Runner
 from google.adk.sessions import DatabaseSessionService
 from memory_agent.agent import memory_agent
-from utils import call_agent_async
+from utils import call_agent_async   
 
 load_dotenv()
 
@@ -58,8 +58,8 @@ async def main_async():
     )
 
     # ===== PART 5: Interactive Conversation Loop =====
-    print("\nWelcome to Memory Agent Chat!")
-    print("Your reminders will be remembered across conversations.")
+    print("\nWelcome to Neko Memory Agent Chat!")
+    print("การแจ้งเตือนของคุณจะถูกจดจำใน Memory ของ Agent")
     print("Type 'exit' or 'quit' to end the conversation.\n")
 
     while True:
