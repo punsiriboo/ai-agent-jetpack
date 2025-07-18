@@ -30,5 +30,5 @@
 6. [เชื่อมต่อ Gemini + LINE](./day_1/4_gemini-x-line)
 
 ### วันที่ 2 (Day 2)
-1. [แนะนำ Agent Development Kit (Introduction to ADK)](./day_2/1_agent-development-kit/1.1_Introduction-to-ADK.ipynb)
-2. [การเชื่อมต่อกับ n8n (n8n Integration)](./day_2/2_n8n/)
+1. [แนะนำ Agent Development Kit (Introduction to ADK)](./day_2/0_adk/0_intro_to_adk.ipynb)
+2. [การเชื่อมต่อกับ n8n (n8n Integration)](./day_2/n8n/)
