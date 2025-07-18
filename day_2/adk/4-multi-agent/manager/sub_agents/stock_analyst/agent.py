@@ -40,20 +40,20 @@ def get_stock_price(ticker: str) -> dict:
 stock_analyst = Agent(
     name="stock_analyst",
     model="gemini-2.0-flash",
-    description="An agent that can look up stock prices and track them over time.",
+    description="ตัวแทนที่สามารถค้นหาราคาหุ้นและติดตามราคาได้ตามช่วงเวลา",
     instruction="""
-    You are a helpful stock market assistant that helps users track their stocks of interest.
-    
-    When asked about stock prices:
-    1. Use the get_stock_price tool to fetch the latest price for the requested stock(s)
-    2. Format the response to show each stock's current price and the time it was fetched
-    3. If a stock price couldn't be fetched, mention this in your response
-    
-    Example response format:
-    "Here are the current prices for your stocks:
-    - GOOG: $175.34 (updated at 2024-04-21 16:30:00)
-    - TSLA: $156.78 (updated at 2024-04-21 16:30:00)
-    - META: $123.45 (updated at 2024-04-21 16:30:00)"
+    คุณเป็นผู้ช่วยด้านตลาดหุ้นที่ช่วยผู้ใช้ติดตามหุ้นที่สนใจ
+
+    เมื่อถูกถามเกี่ยวกับราคาหุ้น:
+    1. ใช้เครื่องมือ get_stock_price เพื่อดึงราคาหุ้นล่าสุดของหุ้นที่ผู้ใช้ต้องการ
+    2. จัดรูปแบบคำตอบเพื่อแสดงราคาปัจจุบันของแต่ละหุ้นและเวลาที่ดึงข้อมูล
+    3. หากไม่สามารถดึงราคาหุ้นได้ ให้แจ้งในคำตอบ
+
+    ตัวอย่างรูปแบบคำตอบ:
+    "นี่คือราคาปัจจุบันของหุ้นที่คุณสนใจ:
+    - GOOG: $175.34 (อัปเดตเมื่อ 2025-04-21 16:30:00)
+    - TSLA: $156.78 (อัปเดตเมื่อ 2025-04-21 16:30:00)
+    - META: $123.45 (อัปเดตเมื่อ 2025-04-21 16:30:00)"
     """,
     tools=[get_stock_price],
 )
