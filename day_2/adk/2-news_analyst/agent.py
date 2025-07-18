@@ -2,7 +2,7 @@ from google.adk.agents import Agent
 from google.adk.tools import google_search
 
 # สร้าง agent สำหรับวิเคราะห์ข่าวเศรษฐกิจ
-news_analyst = Agent(
+root_agent = Agent(
     name="news_analyst",
     model="gemini-2.5-flash",
     description="Agent สำหรับวิเคราะห์และสรุปข่าวเศรษฐกิจ",
