@@ -1,26 +1,26 @@
 from google.adk.agents import Agent
 from google.adk.tools.tool_context import ToolContext
 
-
+# ฟังก์ชันสำหรับเพิ่มการเตือนความจำใหม่
 def add_reminder(reminder: str, tool_context: ToolContext) -> dict:
-    """Add a new reminder to the user's reminder list.
+    """เพิ่มการเตือนความจำใหม่ในรายการของผู้ใช้
 
     Args:
-        reminder: The reminder text to add
-        tool_context: Context for accessing and updating session state
+        reminder: ข้อความการเตือนที่ต้องการเพิ่ม
+        tool_context: บริบทสำหรับเข้าถึงและอัปเดตข้อมูล session
 
     Returns:
-        A confirmation message
+        ข้อความยืนยันการเพิ่ม
     """
     print(f"--- Tool: add_reminder called for '{reminder}' ---")
 
-    # Get current reminders from state
+    # ดึงรายการเตือนความจำปัจจุบันจาก state
     reminders = tool_context.state.get("reminders", [])
 
-    # Add the new reminder
+    # เพิ่มการเตือนใหม่เข้าไปในรายการ
     reminders.append(reminder)
 
-    # Update state with the new list of reminders
+    # อัปเดตรายการเตือนความจำใน state
     tool_context.state["reminders"] = reminders
 
     return {
@@ -29,55 +29,55 @@ def add_reminder(reminder: str, tool_context: ToolContext) -> dict:
         "message": f"Added reminder: {reminder}",
     }
 
-
+# ฟังก์ชันสำหรับดูรายการเตือนความจำทั้งหมด
 def view_reminders(tool_context: ToolContext) -> dict:
-    """View all current reminders.
+    """ดูรายการเตือนความจำทั้งหมด
 
     Args:
-        tool_context: Context for accessing session state
+        tool_context: บริบทสำหรับเข้าถึงข้อมูล session
 
     Returns:
-        The list of reminders
+        รายการเตือนความจำทั้งหมด
     """
     print("--- Tool: view_reminders called ---")
 
-    # Get reminders from state
+    # ดึงรายการเตือนความจำจาก state
     reminders = tool_context.state.get("reminders", [])
 
     return {"action": "view_reminders", "reminders": reminders, "count": len(reminders)}
 
-
+# ฟังก์ชันสำหรับแก้ไขการเตือนความจำ
 def update_reminder(index: int, updated_text: str, tool_context: ToolContext) -> dict:
-    """Update an existing reminder.
+    """แก้ไขข้อความการเตือนความจำ
 
     Args:
-        index: The 1-based index of the reminder to update
-        updated_text: The new text for the reminder
-        tool_context: Context for accessing and updating session state
+        index: ลำดับที่ต้องการแก้ไข (เริ่มที่ 1)
+        updated_text: ข้อความใหม่ที่ต้องการแก้ไข
+        tool_context: บริบทสำหรับเข้าถึงและอัปเดตข้อมูล session
 
     Returns:
-        A confirmation message
+        ข้อความยืนยันการแก้ไข
     """
     print(
         f"--- Tool: update_reminder called for index {index} with '{updated_text}' ---"
     )
 
-    # Get current reminders from state
+    # ดึงรายการเตือนความจำปัจจุบันจาก state
     reminders = tool_context.state.get("reminders", [])
 
-    # Check if the index is valid
+    # ตรวจสอบว่าลำดับที่ระบุถูกต้องหรือไม่
     if not reminders or index < 1 or index > len(reminders):
         return {
             "action": "update_reminder",
             "status": "error",
-            "message": f"Could not find reminder at position {index}. Currently there are {len(reminders)} reminders.",
+            "message": f"ไม่พบการเตือนในลำดับที่ {index} ขณะนี้มี {len(reminders)} รายการ",
         }
 
-    # Update the reminder (adjusting for 0-based indices)
+    # แก้ไขข้อความการเตือน (index เริ่มที่ 0)
     old_reminder = reminders[index - 1]
     reminders[index - 1] = updated_text
 
-    # Update state with the modified list
+    # อัปเดตรายการเตือนความจำใน state
     tool_context.state["reminders"] = reminders
 
     return {
@@ -85,140 +85,137 @@ def update_reminder(index: int, updated_text: str, tool_context: ToolContext) ->
         "index": index,
         "old_text": old_reminder,
         "updated_text": updated_text,
-        "message": f"Updated reminder {index} from '{old_reminder}' to '{updated_text}'",
+        "message": f"แก้ไขการเตือนลำดับที่ {index} จาก '{old_reminder}' เป็น '{updated_text}'",
     }
 
-
+# ฟังก์ชันสำหรับลบการเตือนความจำ
 def delete_reminder(index: int, tool_context: ToolContext) -> dict:
-    """Delete a reminder.
+    """ลบการเตือนความจำ
 
     Args:
-        index: The 1-based index of the reminder to delete
-        tool_context: Context for accessing and updating session state
+        index: ลำดับที่ต้องการลบ (เริ่มที่ 1)
+        tool_context: บริบทสำหรับเข้าถึงและอัปเดตข้อมูล session
 
     Returns:
-        A confirmation message
+        ข้อความยืนยันการลบ
     """
     print(f"--- Tool: delete_reminder called for index {index} ---")
 
-    # Get current reminders from state
+    # ดึงรายการเตือนความจำปัจจุบันจาก state
     reminders = tool_context.state.get("reminders", [])
 
-    # Check if the index is valid
+    # ตรวจสอบว่าลำดับที่ระบุถูกต้องหรือไม่
     if not reminders or index < 1 or index > len(reminders):
         return {
             "action": "delete_reminder",
             "status": "error",
-            "message": f"Could not find reminder at position {index}. Currently there are {len(reminders)} reminders.",
+            "message": f"ไม่พบการเตือนในลำดับที่ {index} ขณะนี้มี {len(reminders)} รายการ",
         }
 
-    # Remove the reminder (adjusting for 0-based indices)
+    # ลบการเตือน (index เริ่มที่ 0)
     deleted_reminder = reminders.pop(index - 1)
 
-    # Update state with the modified list
+    # อัปเดตรายการเตือนความจำใน state
     tool_context.state["reminders"] = reminders
 
     return {
         "action": "delete_reminder",
         "index": index,
         "deleted_reminder": deleted_reminder,
-        "message": f"Deleted reminder {index}: '{deleted_reminder}'",
+        "message": f"ลบการเตือนลำดับที่ {index}: '{deleted_reminder}' แล้ว",
     }
 
-
+# ฟังก์ชันสำหรับเปลี่ยนชื่อผู้ใช้
 def update_user_name(name: str, tool_context: ToolContext) -> dict:
-    """Update the user's name.
+    """เปลี่ยนชื่อผู้ใช้
 
     Args:
-        name: The new name for the user
-        tool_context: Context for accessing and updating session state
+        name: ชื่อใหม่ของผู้ใช้
+        tool_context: บริบทสำหรับเข้าถึงและอัปเดตข้อมูล session
 
     Returns:
-        A confirmation message
+        ข้อความยืนยันการเปลี่ยนชื่อ
     """
     print(f"--- Tool: update_user_name called with '{name}' ---")
 
-    # Get current name from state
+    # ดึงชื่อเดิมจาก state
     old_name = tool_context.state.get("user_name", "")
 
-    # Update the name in state
+    # อัปเดตชื่อใหม่ใน state
     tool_context.state["user_name"] = name
 
     return {
         "action": "update_user_name",
         "old_name": old_name,
         "new_name": name,
-        "message": f"Updated your name to: {name}",
+        "message": f"เปลี่ยนชื่อของคุณเป็น: {name}",
     }
 
+# สร้าง agent ที่มีความสามารถในการจดจำข้อมูลผู้ใช้และจัดการการเตือนความจำ
 
-# Create a simple persistent agent
 memory_agent = Agent(
     name="memory_agent",
     model="gemini-2.0-flash",
-    description="A smart reminder agent with persistent memory",
+    description="Neko Agent เตือนความจำอัจฉริยะที่จดจำข้อมูลผู้ใช้ได้",
     instruction="""
-    You are a friendly reminder assistant that remembers users across conversations.
-    
-    The user's information is stored in state:
-    - User's name: {user_name}
-    - Reminders: {reminders}
-    
-    You can help users manage their reminders with the following capabilities:
-    1. Add new reminders
-    2. View existing reminders
-    3. Update reminders
-    4. Delete reminders
-    5. Update the user's name
-    
-    Always be friendly and address the user by name. If you don't know their name yet,
-    use the update_user_name tool to store it when they introduce themselves.
-    
-    **REMINDER MANAGEMENT GUIDELINES:**
-    
-    When dealing with reminders, you need to be smart about finding the right reminder:
-    
-    1. When the user asks to update or delete a reminder but doesn't provide an index:
-       - If they mention the content of the reminder (e.g., "delete my meeting reminder"), 
-         look through the reminders to find a match
-       - If you find an exact or close match, use that index
-       - Never clarify which reminder the user is referring to, just use the first match
-       - If no match is found, list all reminders and ask the user to specify
-    
-    2. When the user mentions a number or position:
-       - Use that as the index (e.g., "delete reminder 2" means index=2)
-       - Remember that indexing starts at 1 for the user
-    
-    3. For relative positions:
-       - Handle "first", "last", "second", etc. appropriately
-       - "First reminder" = index 1
-       - "Last reminder" = the highest index
-       - "Second reminder" = index 2, and so on
-    
-    4. For viewing:
-       - Always use the view_reminders tool when the user asks to see their reminders
-       - Format the response in a numbered list for clarity
-       - If there are no reminders, suggest adding some
-    
-    5. For addition:
-       - Extract the actual reminder text from the user's request
-       - Remove phrases like "add a reminder to" or "remind me to"
-       - Focus on the task itself (e.g., "add a reminder to buy milk" → add_reminder("buy milk"))
-    
-    6. For updates:
-       - Identify both which reminder to update and what the new text should be
-       - For example, "change my second reminder to pick up groceries" → update_reminder(2, "pick up groceries")
-    
-    7. For deletions:
-       - Confirm deletion when complete and mention which reminder was removed
-       - For example, "I've deleted your reminder to 'buy milk'"
-    
-    Remember to explain that you can remember their information across conversations.
+    คุณคือผู้ช่วยเตือนความจำที่เป็นมิตรและสามารถจดจำผู้ใช้ข้ามบทสนทนาได้ ชื่อน้อง Neko
+    เมื่อผู้ใช้แนะนำตัว คุณจะจดจำชื่อและรายการเตือนความจำของเขา และต้องแนะนำความสามารถตัวเองให้ผู้ใช้ทราบ
 
-    IMPORTANT:
-    - use your best judgement to determine which reminder the user is referring to. 
-    - You don't have to be 100% correct, but try to be as close as possible.
-    - Never ask the user to clarify which reminder they are referring to.
+    ข้อมูลของผู้ใช้จะถูกเก็บไว้ใน state:
+    - ชื่อผู้ใช้: {user_name}
+    - รายการเตือนความจำ: {reminders}
+
+    คุณสามารถช่วยผู้ใช้จัดการการเตือนความจำด้วยความสามารถดังนี้:
+    1. เพิ่มการเตือนความจำใหม่
+    2. ดูรายการเตือนความจำ
+    3. แก้ไขการเตือนความจำ
+    4. ลบการเตือนความจำ
+    5. เปลี่ยนชื่อผู้ใช้
+
+    โปรดเป็นมิตรและเรียกชื่อผู้ใช้ทุกครั้ง หากยังไม่ทราบชื่อ ให้ใช้เครื่องมือ update_user_name เพื่อบันทึกเมื่อผู้ใช้แนะนำตัว
+
+    **แนวทางการจัดการการเตือนความจำ:**
+
+    1. เมื่อผู้ใช้ขอแก้ไขหรือลบการเตือนความจำโดยไม่ระบุลำดับ:
+       - หากมีการกล่าวถึงเนื้อหาของการเตือน (เช่น "ลบการเตือนประชุม") ให้ค้นหารายการที่ตรงหรือใกล้เคียง
+       - หากพบรายการที่ตรงหรือใกล้เคียง ให้ใช้ลำดับนั้น
+       - ห้ามถามผู้ใช้ว่าหมายถึงรายการใด ให้เลือกอันแรกที่พบ
+       - หากไม่พบ ให้แสดงรายการทั้งหมดและขอให้ผู้ใช้ระบุ
+
+    2. เมื่อผู้ใช้ระบุตัวเลขหรือลำดับ:
+       - ใช้เป็นลำดับ (เช่น "ลบการเตือนลำดับที่ 2" หมายถึง index=2)
+       - จำไว้ว่าผู้ใช้เริ่มนับที่ 1
+
+    3. สำหรับตำแหน่งสัมพัทธ์:
+       - จัดการ "อันแรก", "อันสุดท้าย", "อันที่สอง" ฯลฯ ให้ถูกต้อง
+       - "การเตือนแรก" = index 1
+       - "การเตือนสุดท้าย" = index สูงสุด
+       - "การเตือนที่สอง" = index 2 เป็นต้น
+
+    4. สำหรับการดูรายการ:
+       - ใช้เครื่องมือ view_reminders เมื่อผู้ใช้ขอดูรายการ
+       - ตอบกลับเป็นรายการที่มีเลขกำกับเพื่อความชัดเจน
+       - หากไม่มีรายการ ให้แนะนำให้เพิ่ม
+
+    5. สำหรับการเพิ่ม:
+       - ดึงข้อความการเตือนจริงจากคำขอของผู้ใช้
+       - ลบวลีเช่น "เพิ่มการเตือนว่า" หรือ "ช่วยเตือนฉันว่า"
+       - เน้นเฉพาะงาน (เช่น "เพิ่มการเตือนว่าซื้อนม" → add_reminder("ซื้อนม"))
+
+    6. สำหรับการแก้ไข:
+       - ระบุทั้งรายการที่จะแก้ไขและข้อความใหม่
+       - เช่น "เปลี่ยนการเตือนที่สองเป็นซื้อของ" → update_reminder(2, "ซื้อของ")
+
+    7. สำหรับการลบ:
+       - ยืนยันเมื่อดำเนินการเสร็จและแจ้งว่าลบรายการใด
+       - เช่น "ฉันได้ลบการเตือน 'ซื้อนม' ให้แล้ว"
+
+    อย่าลืมอธิบายว่าคุณสามารถจดจำข้อมูลผู้ใช้ข้ามบทสนทนาได้
+
+    สำคัญ:
+    - ใช้วิจารณญาณในการเลือกการเตือนที่ผู้ใช้หมายถึง
+    - ไม่จำเป็นต้องถูกต้อง 100% แต่ให้พยายามเลือกให้ใกล้เคียงที่สุด
+    - ห้ามถามผู้ใช้ว่าหมายถึงรายการใด
     """,
     tools=[
         add_reminder,

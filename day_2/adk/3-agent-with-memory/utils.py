@@ -42,7 +42,7 @@ def display_state(
 
         # Handle the user name
         user_name = session.state.get("user_name", "Unknown")
-        print(f"👤 User: {user_name}")
+        # print(f"👤 User: {user_name}")
 
         # Handle reminders
         reminders = session.state.get("reminders", [])
@@ -140,14 +140,5 @@ async def call_agent_async(runner, user_id, session_id, query):
                 final_response_text = response
     except Exception as e:
         print(f"Error during agent call: {e}")
-
-    # Display state after processing the message
-    display_state(
-        runner.session_service,
-        runner.app_name,
-        user_id,
-        session_id,
-        "State AFTER processing",
-    )
 
     return final_response_text

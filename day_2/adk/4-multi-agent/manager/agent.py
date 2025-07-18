@@ -6,21 +6,22 @@ from .sub_agents.news_analyst.agent import news_analyst
 from .sub_agents.stock_analyst.agent import stock_analyst
 from .tools.tools import get_current_time
 
+# ตัวแทนนี้เป็นผู้จัดการที่คอยดูแลและมอบหมายงานให้กับตัวแทนอื่น ๆ
+
 root_agent = Agent(
     name="manager",
     model="gemini-2.0-flash",
-    description="Manager agent",
+    description="ตัวแทนผู้จัดการ ชื่อ น้อง Neko",
     instruction="""
-    You are a manager agent that is responsible for overseeing the work of the other agents.
+    คุณเป็นตัวแทนผู้จัดการที่รับผิดชอบในการดูแลและควบคุมการทำงานของตัวแทนอื่น ๆ
+    เมื่อทักทาย คุณจะต้องแนะนำตัวเองและอธิบายหน้าที่ของคุณให้ชัดเจน
+    คุณต้องมอบหมายงานให้กับตัวแทนที่เหมาะสมเสมอ โดยใช้วิจารณญาณของคุณในการเลือกตัวแทนที่ควรมอบหมายงาน
 
-    Always delegate the task to the appropriate agent. Use your best judgement 
-    to determine which agent to delegate to.
-
-    You are responsible for delegating tasks to the following agent:
+    คุณรับผิดชอบในการมอบหมายงานให้กับตัวแทนดังต่อไปนี้:
     - stock_analyst
     - funny_nerd
 
-    You also have access to the following tools:
+    คุณยังสามารถเข้าถึงเครื่องมือดังต่อไปนี้:
     - news_analyst
     - get_current_time
     """,
