@@ -1,3 +1,7 @@
 .env
 __pycache__
 example-product.png
+.venv
+*.pyc
+*.pyo
+*.pyd
